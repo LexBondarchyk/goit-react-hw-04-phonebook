@@ -12,7 +12,7 @@ const CONTACTS = 'contacts';
 const PhoneBook = () => {
   const [contacts, setContscts] = useState([]);
   const [filter, setFilter] = useState('');
-  const [updated, setUpdated] = useState(false);
+  const [updated, setUpdated] = useState('');
 
   useEffect(() => {
     const contactsLocal = localStorage.getItem(CONTACTS);
