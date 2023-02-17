@@ -5,14 +5,14 @@ import styles from './contactForm.module.scss';
 
 const ContactForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
-  const [number, setNumder] = useState('');
+  const [number, setNumber] = useState('');
 
   const handleChange = ({ target }) => {
     switch (target.name) {
       case 'name':
         return setName(target.value);
       case 'number':
-        return setNumder(target.value);
+        return setNumber(target.value);
       default:
         return;
     }
@@ -22,7 +22,7 @@ const ContactForm = ({ onSubmit }) => {
     e.preventDefault();
     onSubmit(name, number);
     setName('');
-    setNumder('');
+    setNumber('');
   };
 
   return (
@@ -41,7 +41,7 @@ const ContactForm = ({ onSubmit }) => {
         />
       </label>
       <label className={styles.label}>
-        Numder
+        Number
         <input
           className={styles.input}
           type="tel"

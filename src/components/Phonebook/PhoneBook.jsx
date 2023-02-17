@@ -8,27 +8,23 @@ import ContactForm from './ContactForm/ContactForm';
 
 import styles from './phoneBook.module.scss';
 
-const CONTACTS = 'contacts';
+
 const PhoneBook = () => {
-  const [contacts, setContscts] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
-  const [updated, setUpdated] = useState('');
+  
 
   useEffect(() => {
-    const contactsLocal = localStorage.getItem(CONTACTS);
-    const parsedContacts = JSON.parse(contactsLocal);
-    if (parsedContacts) {
-      setContscts([...parsedContacts]);
+    const savedContacts = JSON.parse(localStorage.getItem('contacts'));
+    if (savedContacts) {
+      setContacts([...savedContacts]);
     }
-    setUpdated(true);
   }, []);
-
   useEffect(() => {
-    if (!updated) {
-      return;
+    if (contacts.length) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
     }
-    localStorage.setItem(CONTACTS, JSON.stringify(contacts));
-  }, [contacts, updated]);
+  }, [contacts]);
 
   const addContact = (name, number) => {
     if (isDublicate(name)) {
@@ -36,7 +32,7 @@ const PhoneBook = () => {
       return;
     }
 
-    setContscts(prevContact => {
+    setContacts(prevContact => {
       const contact = {
         id: nanoid(),
         name,
@@ -62,15 +58,15 @@ const PhoneBook = () => {
     }
 
     const normalizedFilter = filter.toLocaleLowerCase();
-    const filteredContscts = contacts.filter(({ name }) => {
+    const filteredContacts = contacts.filter(({ name }) => {
       return name.toLocaleLowerCase().includes(normalizedFilter);
     });
 
-    return filteredContscts;
+    return filteredContacts;
   };
 
   const removeContact = id => {
-    setContscts(prevContact => {
+    setContacts(prevContact => {
       return prevContact.filter(contsct => contsct.id !== id);
     });
   };
