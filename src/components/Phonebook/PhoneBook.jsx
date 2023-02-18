@@ -10,21 +10,15 @@ import styles from './phoneBook.module.scss';
 
 
 const PhoneBook = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    () => JSON.parse(localStorage.getItem('contacts')) ?? []
+  );
   const [filter, setFilter] = useState('');
   
-
   useEffect(() => {
-    const savedContacts = JSON.parse(localStorage.getItem('contacts'));
-    if (savedContacts) {
-      setContacts([...savedContacts]);
-    }
-  }, []);
-  useEffect(() => {
-    if (contacts.length) {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-    }
-  }, [contacts]);
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+}, [contacts]);
+ 
 
   const addContact = (name, number) => {
     if (isDublicate(name)) {
@@ -67,7 +61,7 @@ const PhoneBook = () => {
 
   const removeContact = id => {
     setContacts(prevContact => {
-      return prevContact.filter(contsct => contsct.id !== id);
+      return prevContact.filter(contact => contact.id !== id);
     });
   };
 
